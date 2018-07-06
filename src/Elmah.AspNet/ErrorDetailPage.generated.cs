@@ -461,6 +461,8 @@ WriteLiteral("\r\n");
 WriteLiteral("\r\n");
 
 
+            WriteLiteral("<div><a class=\"btn btn-danger btn-delete\" href=\"" + basePageName + "/delete?id=" + errorEntry.Id + "\">Delete error</a></div>");
+
         }
     }
 }

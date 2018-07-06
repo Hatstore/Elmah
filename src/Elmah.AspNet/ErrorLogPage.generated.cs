@@ -313,6 +313,7 @@ WriteLiteral(@"            <table id=""ErrorLog"" cellspacing=""0"" style=""bord
                     <th class=""error-col"" style=""white-space:nowrap;"">Error</th>
                     <th class=""user-col"" style=""white-space:nowrap;"">User</th>
                     <th class=""time-col"" style=""white-space:nowrap;"">When</th>
+                    <th class=""delete-col"" style=""white-space:nowrap;"">&nbsp;</th>
                 </tr>
 
 ");
@@ -507,11 +508,14 @@ WriteLiteral("\">");
             
             #line default
             #line hidden
-WriteLiteral("</abbr></td>\r\n                </tr>\r\n");
+WriteLiteral("</abbr></td>\r\n");
+
+                WriteLiteral("<td class=\"delete-col\"><a class=\"btn btn-danger btn-delete\" href=\"" + basePageName + "/delete?id=" + error.Id + "\">x</a></td>");
+
+                WriteLiteral("                </tr>\r\n");
 
 
-            
-            #line 170 "..\..\ErrorLogPage.cshtml"
+#line 170 "..\..\ErrorLogPage.cshtml"
             }
 
             
