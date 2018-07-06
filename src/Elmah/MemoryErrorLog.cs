@@ -30,6 +30,7 @@ namespace Elmah
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Threading;
     using Mannex;
     using IDictionary = System.Collections.IDictionary;
@@ -177,6 +178,28 @@ namespace Elmah
             }
             
             return newId.ToString();
+        }
+
+        /// <summary>
+        /// Delete an error from the log.
+        /// </summary>
+        /// <param name="id">Id of the error to remove.</param>
+        public override void Delete(string id)
+        {
+            _lock.EnterWriteLock();
+
+            try
+            {
+                var entry = _entries.FirstOrDefault(x => x.Id == id);
+                if (entry != null)
+                {
+                    _entries.Remove(entry);
+                }
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
         }
 
         /// <summary>

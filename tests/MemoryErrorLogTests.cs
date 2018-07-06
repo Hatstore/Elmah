@@ -66,6 +66,18 @@ namespace Elmah.Tests
         }
 
         [Fact]
+        public void CanDeleteError()
+        {
+            var errorLog = CreateLog();
+            var expectedErrorId = errorLog.Log(new Error());
+            var error = errorLog.GetError(expectedErrorId);
+            Assert.Equal(expectedErrorId, error.Id);
+            
+            errorLog.Delete(error.Id);
+            Assert.Null(errorLog.GetError(error.Id));
+        }
+
+        [Fact]
         public void CanPageMultipleErrors()
         {
             var errorLog = CreateLog();

@@ -175,6 +175,34 @@ namespace Elmah
         }
 
         /// <summary>
+        /// Delete an error from the log.
+        /// </summary>
+        /// <param name="id">Id of the error to remove.</param>
+        /// <remarks>
+        /// Theoretically, there can be multiple error files containing the specified id.
+        /// If so, we will delete all files containing the id.
+        /// </remarks>
+        public override void Delete(string id)
+        {
+            var logPath = LogPath;
+            
+            var dir = new DirectoryInfo(logPath);
+            if (!dir.Exists)
+                return;
+
+            var searchPattern = string.Format("error-*-{0}.xml", id);
+            var infos = dir.GetFiles(searchPattern);
+
+            if (!infos.Any())
+                return;
+
+            foreach (var info in infos)
+            {
+                info.Delete();
+            }
+        }
+
+        /// <summary>
         /// Returns a page of errors from the folder in descending order 
         /// of logged time as defined by the sortable filenames.
         /// </summary>

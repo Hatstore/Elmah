@@ -60,6 +60,13 @@ namespace Elmah.Tests
             return entry.Id;
         }
 
+        public override void Delete(string id)
+        {
+            var entry = _entries.FirstOrDefault(x => x.Id == id);
+            if (entry != null)
+                _entries.Remove(entry);
+        }
+
         public override ErrorLogEntry GetError(string id)
         {
             var entries =

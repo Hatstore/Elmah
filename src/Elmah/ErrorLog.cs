@@ -60,6 +60,12 @@ namespace Elmah
         
         public abstract string Log(Error error);
 
+        /// <summary>
+        /// Remove an error from the log.
+        /// </summary>
+        /// <param name="id">Id of the error to remove.</param>
+        public abstract void Delete(string id);
+
         #if ASYNC
 
         /// <summary>
