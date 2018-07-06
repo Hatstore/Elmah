@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -45,6 +45,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NETFX 3.5 Debug|AnyCPU' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -311,6 +312,7 @@
     <Compile Include="..\Elmah\KeyValuePair.cs">
       <Link>KeyValuePair.cs</Link>
     </Compile>
+    <Compile Include="ErrorTruncationHandler.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.Index.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.Pairwise.cs" />
     <Compile Include="MoreLinq\MoreEnumerable.ToDelimitedString.cs" />

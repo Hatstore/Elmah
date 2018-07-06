@@ -56,6 +56,10 @@ footer {
     float: right;
 }
 
+.truncate-container {
+    margin: 10px 0;
+}
+
 #ErrorDetail
 {
     font-size: 110%;

@@ -114,6 +114,8 @@ namespace Elmah
                     return new ErrorHtmlPage();
                 case "delete":
                     return new DelegatingHttpHandler(ErrorDeletionHandler.ProcessRequest);
+                case "truncate":
+                    return new DelegatingHttpHandler(ErrorTruncationHandler.ProcessRequest);
                 case "xml":
                     return new DelegatingHttpHandler(ErrorXmlHandler.ProcessRequest);
                 case "json":

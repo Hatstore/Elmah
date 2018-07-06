@@ -67,6 +67,11 @@ namespace Elmah.Tests
                 _entries.Remove(entry);
         }
 
+        public override void Truncate()
+        {
+            _entries.Clear();
+        }
+
         public override ErrorLogEntry GetError(string id)
         {
             var entries =

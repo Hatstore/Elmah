@@ -66,6 +66,11 @@ namespace Elmah
         /// <param name="id">Id of the error to remove.</param>
         public abstract void Delete(string id);
 
+        /// <summary>
+        /// Truncate the error log.
+        /// </summary>
+        public abstract void Truncate();
+
         #if ASYNC
 
         /// <summary>

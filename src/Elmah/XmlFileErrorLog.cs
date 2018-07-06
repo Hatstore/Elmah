@@ -202,6 +202,26 @@ namespace Elmah
             }
         }
 
+        public override void Truncate()
+        {
+            var logPath = LogPath;
+            
+            var dir = new DirectoryInfo(logPath);
+            if (!dir.Exists)
+                return;
+
+            var searchPattern = string.Format("error-*.xml");
+            var infos = dir.GetFiles(searchPattern);
+
+            if (!infos.Any())
+                return;
+
+            foreach (var info in infos)
+            {
+                info.Delete();
+            }
+        }
+
         /// <summary>
         /// Returns a page of errors from the folder in descending order 
         /// of logged time as defined by the sortable filenames.

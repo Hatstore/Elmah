@@ -296,6 +296,7 @@ WriteLiteral("). \r\n                Start with ");
 WriteLiteral(" errors per page.</p>\r\n");
 
 
+            WriteLiteral("<div class=\"truncate-container\"><a class=\"btn btn-danger\" href=\"" + basePageName + "/truncate\">Truncate error log</a></div>");
             
             #line 116 "..\..\ErrorLogPage.cshtml"
 

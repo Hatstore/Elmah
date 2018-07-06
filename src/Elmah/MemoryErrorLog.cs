@@ -203,6 +203,22 @@ namespace Elmah
         }
 
         /// <summary>
+        /// Truncate the error log.
+        /// </summary>
+        public override void Truncate()
+        {
+            _lock.EnterWriteLock();
+            try
+            {
+                _entries.Clear();
+            }
+            finally
+            {
+                _lock.ExitWriteLock();
+            }
+        }
+
+        /// <summary>
         /// Returns the specified error from application memory, or null 
         /// if it does not exist.
         /// </summary>
