@@ -28,6 +28,7 @@ namespace Elmah
     #region Imports
 
     using System;
+    using System.Collections;
     using System.Diagnostics;
     using System.Security;
     using System.Security.Principal;
@@ -62,6 +63,7 @@ namespace Elmah
         private NameValueCollection _queryString;
         private NameValueCollection _form;
         private NameValueCollection _cookies;
+        private NameValueCollection _data;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Error"/> class.
@@ -154,6 +156,11 @@ namespace Elmah
                 _queryString = CopyCollection(qsfc.QueryString);
                 _form = CopyCollection(qsfc.Form);
                 _cookies = CopyCollection(qsfc.Cookies);
+            }
+
+            if (baseException.Data != null)
+            {
+                _data = CopyCollection(baseException.Data);
             }
 
             var callerInfo = e.TryGetCallerInfo() ?? CallerInfo.Empty;
@@ -352,6 +359,11 @@ namespace Elmah
             get { return FaultIn(ref _cookies); }
         }
 
+        public NameValueCollection Data
+        {
+            get { return FaultIn(ref _data); }
+        }
+
         /// <summary>
         /// Returns the value of the <see cref="Message"/> property.
         /// </summary>
@@ -381,6 +393,7 @@ namespace Elmah
             copy._queryString = CopyCollection(_queryString);
             copy._form = CopyCollection(_form);
             copy._cookies = CopyCollection(_cookies);
+            copy._data = CopyCollection(_data);
 
             return copy;
         }
@@ -410,6 +423,21 @@ namespace Elmah
                 //
 
                 copy.Add(cookie.Name, cookie.Value);
+            }
+
+            return copy;
+        }
+
+        private static NameValueCollection CopyCollection(IDictionary dictionary)
+        {
+            if (dictionary == null || dictionary.Count == 0)
+                return null;
+
+            NameValueCollection copy = new NameValueCollection(dictionary.Count);
+
+            foreach (string key in dictionary.Keys)
+            {
+                copy.Add(key, dictionary[key].ToString());
             }
 
             return copy;

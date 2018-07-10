@@ -6,16 +6,16 @@
 @inherits WebTemplateBase
 @{
     var basePageName = Request.ServerVariables["URL"];
-    
+
     //
-    // Retrieve the ID of the error to display and read it from 
+    // Retrieve the ID of the error to display and read it from
     // the store.
     //
 
     var errorId = Request.QueryString["id"] ?? string.Empty;
 
     if (errorId.Length == 0)
-    { 
+    {
         return;
     }
 
@@ -38,37 +38,39 @@
 
     Layout = new Elmah.MasterPage
     {
-        Context  = Context, /* TODO Consider not requiring this */
-        Title    = title,
+        Context = Context, /* TODO Consider not requiring this */
+        Title = title,
         Footnote = string.Format("This log is provided by the {0}.", log.Name),
-        SpeedBarItems = new[] 
+        SpeedBarItems = new[]
         {
-            SpeedBar.Home.Format(basePageName),
-            SpeedBar.Help,
-            SpeedBar.About.Format(basePageName),
-        },
+    SpeedBar.Home.Format(basePageName),
+    SpeedBar.Help,
+    SpeedBar.About.Format(basePageName),
+},
     };
 
     var error = errorEntry.Error;
 }
 
 @*
-// Write out the page title containing error type and message.
+    // Write out the page title containing error type and message.
 *@
 
 <h1 id="PageTitle">@error.Message</h1>
 
-<p id="ErrorTitle">@*
-    *@<span id="ErrorType">@error.Type</span>@*
-    *@<span id="ErrorTypeMessageSeparator">: </span>@*
-    *@<span id="ErrorMessage">@error.Message</span></p>
+<p id="ErrorTitle">
+    @*
+*@<span id="ErrorType">@error.Type</span>@*
+*@<span id="ErrorTypeMessageSeparator">: </span>@*
+*@<span id="ErrorMessage">@error.Message</span>
+</p>
 
 @*
-// Do we have details, like the stack trace? If so, then write 
-// them out in a pre-formatted (pre) element. 
-// NOTE: There is an assumption here that detail will always
-// contain a stack trace. If it doesn't then pre-formatting 
-// might not be the right thing to do here.
+    // Do we have details, like the stack trace? If so, then write
+    // them out in a pre-formatted (pre) element.
+    // NOTE: There is an assumption here that detail will always
+    // contain a stack trace. If it doesn't then pre-formatting
+    // might not be the right thing to do here.
 *@
 
 @if (error.Detail.Length != 0)
@@ -77,30 +79,32 @@
 }
 
 @*
-// Write out the error log time. This will be in the local
-// time zone of the server. Would be a good idea to indicate
-// it here for the user.
+    // Write out the error log time. This will be in the local
+    // time zone of the server. Would be a good idea to indicate
+    // it here for the user.
 *@
 
-<p id="ErrorLogTime">@string.Format(
-    @"Logged on {0} at {1}",
-    error.Time.ToLongDateString(),
-    error.Time.ToLongTimeString())</p>
+<p id="ErrorLogTime">
+    @string.Format(
+@"Logged on {0} at {1}",
+error.Time.ToLongDateString(),
+error.Time.ToLongTimeString())
+</p>
 
 @*
-// Render alternate links.
+    // Render alternate links.
 *@
 
 <p>See also:</p>
 
 <ul>
 
-@*
-// Do we have an HTML formatted message from ASP.NET? If yes
-// then write out a link to it instead of embedding it 
-// with the rest of the content since it is an entire HTML
-// document in itself.
-*@
+    @*
+        // Do we have an HTML formatted message from ASP.NET? If yes
+        // then write out a link to it instead of embedding it
+        // with the rest of the content since it is an entire HTML
+        // document in itself.
+    *@
 
     @if (error.WebHostHtmlMessage.Length != 0)
     {
@@ -108,40 +112,41 @@
         <li><a href="@basePageName/html?id=@Uri.EscapeDataString(errorEntry.Id)">Original ASP.NET error page</a></li>
     }
 
-@*
-// Add a link to the source XML and JSON data.
-*@
+    @*
+        // Add a link to the source XML and JSON data.
+    *@
 
-    <li>Raw/Source data in 
-        <a rel="@HtmlLinkType.Alternate" 
-           type="application/xml" 
+    <li>
+        Raw/Source data in
+        <a rel="@HtmlLinkType.Alternate"
+           type="application/xml"
            href="xml@(Request.Url.Query)">XML</a>
         or in
-        <a rel="@HtmlLinkType.Alternate" 
-           type="application/json" 
+        <a rel="@HtmlLinkType.Alternate"
+           type="application/json"
            href="json@(Request.Url.Query)">JSON</a>
     </li>
 </ul>
 
 @* TODO Turn into a helper?
 
-// If this error has context, then write it out.
-// ServerVariables are good enough for most purposes, so
-// we only write those out at this time.
+    // If this error has context, then write it out.
+    // ServerVariables are good enough for most purposes, so
+    // we only write those out at this time.
 
-private void RenderCollection(HtmlTextWriter writer,
-    NameValueCollection collection, string id, string title)
-{
-    Debug.Assert(writer != null);
-    Debug.AssertStringNotEmpty(id);
-    Debug.AssertStringNotEmpty(title);
+    private void RenderCollection(HtmlTextWriter writer,
+        NameValueCollection collection, string id, string title)
+    {
+        Debug.Assert(writer != null);
+        Debug.AssertStringNotEmpty(id);
+        Debug.AssertStringNotEmpty(title);
 *@
 
 @{
     var collection = new
     {
-        Data  = error.ServerVariables,
-        Id    = "ServerVariables",
+        Data = error.ServerVariables,
+        Id = "ServerVariables",
         Title = "Server Variables",
     };
 
@@ -151,25 +156,25 @@ private void RenderCollection(HtmlTextWriter writer,
 
     if (collection.Data != null && collection.Data.Count > 0)
     {
-        var items = 
+        var items =
             from i in Enumerable.Range(0, collection.Data.Count)
             select new
             {
-                Index  = i,
-                Key    = collection.Data.GetKey(i),
-                Value  = collection.Data[i],
+                Index = i,
+                Key = collection.Data.GetKey(i),
+                Value = collection.Data[i],
             };
-        
+
         items = items.OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
-        
+
         <div id="@collection.Id">
 
             <h2>@collection.Title</h2>
             @*
-            // Some values can be large and add scroll bars to the page
-            // as well as ruin some formatting. So we encapsulate the
-            // table into a scrollable view that is controlled via the 
-            // style sheet.
+                // Some values can be large and add scroll bars to the page
+                // as well as ruin some formatting. So we encapsulate the
+                // table into a scrollable view that is controlled via the
+                // style sheet.
             *@
 
             <div class="scroll-view">
@@ -179,7 +184,7 @@ private void RenderCollection(HtmlTextWriter writer,
                         <th class="name-col" style="white-space:nowrap;">Name</th>
                         <th class="value-col" style="white-space:nowrap;">Value</th>
                     </tr>
-    
+
                     @foreach (var item in items)
                     {
                         <tr class="@(item.Index % 2 == 0 ? "even" : "odd")">
@@ -193,11 +198,64 @@ private void RenderCollection(HtmlTextWriter writer,
         </div>
     }
 
-        <div>
-            <a class="btn btn-danger btn-delete" href="@basePageName/delete?id=@errorEntry.Id">Delete error</a>
+
+    if (error.Data != null)
+    {
+        var dataCollection = new
+        {
+            Data = error.Data,
+            Id = "Data",
+            Title = "Error Data",
+        };
+
+        var dataItems =
+            from i in Enumerable.Range(0, dataCollection.Data.Count)
+            select new
+            {
+                Index = i,
+                Key = dataCollection.Data.GetKey(i),
+                Value = dataCollection.Data[i],
+            };
+
+        dataItems = dataItems.OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
+
+        <div id="@dataCollection.Id">
+
+            <h2>@dataCollection.Title</h2>
+            @*
+                // Some values can be large and add scroll bars to the page
+                // as well as ruin some formatting. So we encapsulate the
+                // table into a scrollable view that is controlled via the
+                // style sheet.
+            *@
+
+            <div class="scroll-view">
+
+                <table cellspacing="0" style="border-collapse:collapse;" class="table table-condensed table-striped">
+                    <tr>
+                        <th class="name-col" style="white-space:nowrap;">Name</th>
+                        <th class="value-col" style="white-space:nowrap;">Value</th>
+                    </tr>
+
+                    @foreach (var item in dataItems)
+                    {
+                        <tr class="@(item.Index % 2 == 0 ? "even" : "odd")">
+                            <td class="key-col">@item.Key</td>
+                            <td class="value-col">@item.Value</td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
         </div>
+    }
+
+
+    <div>
+        <a class="btn btn-danger btn-delete" href="@basePageName/delete?id=@errorEntry.Id">Delete error</a>
+    </div>
 }
 
 @*
-}
+    }
 *@

@@ -105,6 +105,7 @@ namespace Elmah
             Member(writer, "queryString", error.QueryString);
             Member(writer, "form", error.Form);
             Member(writer, "cookies", error.Cookies);
+            Member(writer, "data", error.Data);
         }
 
         private static void Member(JsonTextWriter writer, string name, int value, int defaultValue)

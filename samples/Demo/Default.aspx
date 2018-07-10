@@ -46,7 +46,9 @@
 
     private static void ThrowSampleException()
     {
-        throw new System.ApplicationException();
+        var ex = new System.ApplicationException();
+        ex.Data["Foo"] = "Bar";
+        throw ex;
     }
 
 </script>
