@@ -59,10 +59,10 @@
 <h1 id="PageTitle">@error.Message</h1>
 
 <p id="ErrorTitle">
-    @*
-*@<span id="ErrorType">@error.Type</span>@*
-*@<span id="ErrorTypeMessageSeparator">: </span>@*
-*@<span id="ErrorMessage">@error.Message</span>
+    <span id="ErrorType">@error.Type</span>
+    <span id="ErrorTypeMessageSeparator">: </span>
+    <span id="ErrorMessage">@error.Message</span>
+    <span id="HostName">Host: @error.HostName</span>
 </p>
 
 @*
@@ -217,7 +217,7 @@ error.Time.ToLongTimeString())
                 Value = dataCollection.Data[i],
             };
 
-        dataItems = dataItems.OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
+        dataItems = dataItems.Where(e => e.Key != ExceptionExtensions.CallerInfoKey).OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
 
         <div id="@dataCollection.Id">
 

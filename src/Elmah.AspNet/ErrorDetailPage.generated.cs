@@ -132,34 +132,33 @@ WriteLiteral("\r\n\r\n<h1 id=\"PageTitle\">");
             
             #line default
             #line hidden
-WriteLiteral("</h1>\r\n\r\n<p id=\"ErrorTitle\">\r\n    ");
-
-
-
-WriteLiteral("<span id=\"ErrorType\">");
+WriteLiteral("</h1>\r\n\r\n<p id=\"ErrorTitle\">\r\n    <span id=\"ErrorType\">");
 
 
             
-            #line 63 "..\..\ErrorDetailPage.cshtml"
-                  Write(error.Type);
+            #line 62 "..\..\ErrorDetailPage.cshtml"
+                    Write(error.Type);
 
             
             #line default
             #line hidden
-WriteLiteral("</span>");
+WriteLiteral("</span>\r\n    <span id=\"ErrorTypeMessageSeparator\">: </span>\r\n    <span id=\"ErrorM" +
+"essage\">");
 
 
+            
+            #line 64 "..\..\ErrorDetailPage.cshtml"
+                       Write(error.Message);
 
-WriteLiteral("<span id=\"ErrorTypeMessageSeparator\">: </span>");
-
-
-
-WriteLiteral("<span id=\"ErrorMessage\">");
+            
+            #line default
+            #line hidden
+WriteLiteral("</span>\r\n    <span id=\"HostName\">Host: ");
 
 
             
             #line 65 "..\..\ErrorDetailPage.cshtml"
-                     Write(error.Message);
+                         Write(error.HostName);
 
             
             #line default
@@ -469,7 +468,7 @@ WriteLiteral("\r\n                </table>\r\n            </div>\r\n        </di
                 Value = dataCollection.Data[i],
             };
 
-        dataItems = dataItems.OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
+        dataItems = dataItems.Where(e => e.Key != ExceptionExtensions.CallerInfoKey).OrderBy(e => e.Key, StringComparer.OrdinalIgnoreCase);
 
 
             

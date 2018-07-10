@@ -38,7 +38,7 @@ namespace Elmah
 
     public static class ExceptionExtensions
     {
-        private const string CallerInfoKey = "ElmahCallerInfo";
+        public const string CallerInfoKey = "ElmahCallerInfo";
 
         /// <summary>
         /// Attempts to install a <see cref="CallerInfo"/> into an
